@@ -41,5 +41,9 @@ public class BookService {
     public Person getBookOwner(int id){
         return bookRepository.findById(id).map(Book::getPerson).orElse(null);
     }
+    @Transactional
+    public void createBook(Book book){
+        bookRepository.save(book);
+    }
 
 }

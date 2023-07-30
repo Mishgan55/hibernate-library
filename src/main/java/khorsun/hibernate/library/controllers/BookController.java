@@ -1,5 +1,6 @@
 package khorsun.hibernate.library.controllers;
 
+import khorsun.hibernate.library.models.Book;
 import khorsun.hibernate.library.models.Person;
 import khorsun.hibernate.library.services.BookService;
 import khorsun.hibernate.library.services.PersonService;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -53,5 +55,14 @@ public class BookController {
             model.addAttribute("people",personService.findAll());
         }
         return "book/show";
+    }
+    @GetMapping("/new")
+    public String formForCreatingBook(@ModelAttribute("book")Book book){
+        return "book/new";
+    }
+    @PostMapping()
+    public String createBook(@ModelAttribute("book")Book book){
+        bookService.createBook(book);
+        return "redirect:/book";
     }
 }
