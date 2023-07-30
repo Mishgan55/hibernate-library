@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,6 +46,17 @@ public class PersonController {
     @PostMapping()
     public String createPerson(@ModelAttribute("person") Person person){
         personService.create(person);
+        return "redirect:/people";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String formForUpdatingPerson(@PathVariable("id") int id, Model model){
+        model.addAttribute("person",personService.findOne(id));
+        return "people/edit";
+    }
+    @PatchMapping("/{id}")
+    public String updatePerson(@PathVariable("id")int id,@ModelAttribute("person") Person person ){
+        personService.edit(id, person);
         return "redirect:/people";
     }
 }
