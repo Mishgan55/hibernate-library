@@ -47,4 +47,8 @@ public class PersonService {
         person.setId(id);
         personRepository.save(person);
     }
+    @Transactional
+    public void delete(int id){
+        personRepository.deleteById(id);
+    }
 }
