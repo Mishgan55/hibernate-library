@@ -54,5 +54,14 @@ public class BookService {
     public void delete(int id){
         bookRepository.deleteById(id);
     }
+    @Transactional
+    public void release(int id){
+         bookRepository.findById(id).ifPresent(book -> {
+             book.setPerson(null);
+         });
+
+
+
+    }
 
 }

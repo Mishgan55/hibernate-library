@@ -82,4 +82,9 @@ public class BookController {
         bookService.delete(id);
         return "redirect:/book";
     }
+    @PatchMapping("/{id}/release")
+    public String releaseBook(@PathVariable("id")int id){
+        bookService.release(id);
+        return "redirect:/book/"+id;
+    }
 }
