@@ -87,4 +87,10 @@ public class BookController {
         bookService.release(id);
         return "redirect:/book/"+id;
     }
+    @PatchMapping("/{id}/assign")
+    public String assignBook(@PathVariable("id")int id,@ModelAttribute("person")Person person){
+        bookService.assign(id, person);
+        return "redirect:/book/"+id;
+
+    }
 }

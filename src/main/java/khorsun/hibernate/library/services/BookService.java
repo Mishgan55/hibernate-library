@@ -59,7 +59,12 @@ public class BookService {
          bookRepository.findById(id).ifPresent(book -> {
              book.setPerson(null);
          });
-
+    }
+    @Transactional
+    public void assign(int id,Person person){
+        bookRepository.findById(id).ifPresent(book -> {
+            book.setPerson(person);
+        });
 
 
     }
