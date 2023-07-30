@@ -7,6 +7,7 @@ import khorsun.hibernate.library.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -74,6 +75,11 @@ public class BookController {
     @PatchMapping("/{id}")
     public String updateBook(@PathVariable("id")int id ,@ModelAttribute("book")Book book){
         bookService.update(id,book);
+        return "redirect:/book";
+    }
+    @DeleteMapping("/{id}")
+    public String deleteBook(@PathVariable("id")int id){
+        bookService.delete(id);
         return "redirect:/book";
     }
 }
