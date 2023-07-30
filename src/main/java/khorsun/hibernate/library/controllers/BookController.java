@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,6 +64,16 @@ public class BookController {
     @PostMapping()
     public String createBook(@ModelAttribute("book")Book book){
         bookService.createBook(book);
+        return "redirect:/book";
+    }
+    @GetMapping("/{id}/edit")
+    public String formForUpdatingBook(@PathVariable("id")int id,Model model){
+        model.addAttribute("book",bookService.findOneBook(id));
+        return "book/edit";
+    }
+    @PatchMapping("/{id}")
+    public String updateBook(@PathVariable("id")int id ,@ModelAttribute("book")Book book){
+        bookService.update(id,book);
         return "redirect:/book";
     }
 }
