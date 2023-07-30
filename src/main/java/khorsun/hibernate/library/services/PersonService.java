@@ -38,4 +38,8 @@ public class PersonService {
             return Collections.emptyList();
         }
     }
+    @Transactional
+    public void create(Person person){
+        personRepository.save(person);
+    }
 }
