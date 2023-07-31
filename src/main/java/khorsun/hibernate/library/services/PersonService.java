@@ -33,6 +33,7 @@ public class PersonService {
         Optional<Person> person = personRepository.findById(id);
         if (person.isPresent()){
             Hibernate.initialize(person.get().getBook());
+            /*we go through the list of people and check the expired books*/
             person.get().getBook().forEach(book -> {
                 long expiredTime=Math.abs(book.getTakenTime().getTime()-new Date().getTime());
                 //432000000 five days
@@ -58,7 +59,7 @@ public class PersonService {
     public void delete(int id){
         personRepository.deleteById(id);
     }
-
+//method for PersonValidator
     public Optional<Person> findByName(String fullName){
         return personRepository.findPersonByFullName(fullName);
     }

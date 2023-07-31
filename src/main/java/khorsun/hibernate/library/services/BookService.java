@@ -22,13 +22,14 @@ public class BookService {
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
-
+    /*If both sorting and pagination are passed in the query string this method works*/
     public List<Book> findAllBooksWithPagination(int page,int booksPerPage,boolean sort){
         if (sort){
         return bookRepository.findAll(PageRequest.of(page,booksPerPage,Sort.by("year"))).getContent();}
         else{
             return bookRepository.findAll(PageRequest.of(page,booksPerPage)).getContent();}
     }
+    /*Only sorting*/
     public List<Book> findAllBooks(boolean sort){
         if (sort){
         return bookRepository.findAll(Sort.by("year"));}
@@ -55,22 +56,25 @@ public class BookService {
     public void delete(int id){
         bookRepository.deleteById(id);
     }
+    /*A method to release a book from a person*/
     @Transactional
     public void release(int id){
          bookRepository.findById(id).ifPresent(book -> {
              book.setPerson(null);
-             book.setTakenTime(null);
+             book.setTakenTime(null);//Here delete time from table
          });
     }
+    /*A method to assign a book from a person*/
     @Transactional
     public void assign(int id,Person person){
         bookRepository.findById(id).ifPresent(book -> {
             book.setPerson(person);
-            book.setTakenTime(new Date());
+            book.setTakenTime(new Date());//Here set time
         });
 
 
     }
+    /*A method for searching book from request*/
     public List<Book> findBookByRequest(String request){
          return  bookRepository.findBookByTitleStartingWith(request);
     }
