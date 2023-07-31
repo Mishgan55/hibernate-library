@@ -91,6 +91,14 @@ public class BookController {
     public String assignBook(@PathVariable("id")int id,@ModelAttribute("person")Person person){
         bookService.assign(id, person);
         return "redirect:/book/"+id;
-
+    }
+    @GetMapping("/search")
+    public String searchBook(){
+        return "book/search";
+    }
+    @PostMapping("/search")
+    public String createSearch(@RequestParam("request")String titleForSearch,Model model){
+        model.addAttribute("book",bookService.findBookByRequest(titleForSearch));
+        return "book/search";
     }
 }
