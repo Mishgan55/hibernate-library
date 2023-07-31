@@ -7,6 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -17,8 +21,12 @@ public class Person {
     @Column(name="id")
     private int id;
     @Column(name = "full_name")
+    @NotEmpty(message = "Should not be empty")
+    @Size(min = 2, max = 100, message = "Name should be between 2 and 100 characters")
+    @Pattern(regexp = "[A-Z]\\w+ [A-Z]\\w+", message = "Name Surname")
     private String fullName;
     @Column(name = "year_of_birth")
+    @Min(value = 1900,message = "Year should be greater then 1900")
     private int yearOfBirth;
     @OneToMany(mappedBy = "person")
     private List<Book> book;
