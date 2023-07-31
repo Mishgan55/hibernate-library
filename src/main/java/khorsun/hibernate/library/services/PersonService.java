@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,12 @@ public class PersonService {
         Optional<Person> person = personRepository.findById(id);
         if (person.isPresent()){
             Hibernate.initialize(person.get().getBook());
+            person.get().getBook().forEach(book -> {
+                long expiredTime=Math.abs(book.getTakenTime().getTime()-new Date().getTime());
+                //432000000 five days
+                if (expiredTime>432000000)
+                    book.setExpired(true);
+            });
         return person.get().getBook();
         }
         else {

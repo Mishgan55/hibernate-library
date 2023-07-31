@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,12 +59,14 @@ public class BookService {
     public void release(int id){
          bookRepository.findById(id).ifPresent(book -> {
              book.setPerson(null);
+             book.setTakenTime(null);
          });
     }
     @Transactional
     public void assign(int id,Person person){
         bookRepository.findById(id).ifPresent(book -> {
             book.setPerson(person);
+            book.setTakenTime(new Date());
         });
 
 

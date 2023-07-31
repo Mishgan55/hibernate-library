@@ -8,6 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import java.util.Date;
 
 @Entity
 @Table(name = "book")
@@ -25,6 +29,11 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person person;
+    @Column(name="taken_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date takenTime;
+    @Transient
+    private boolean expired;
 
     public Book() {
     }
@@ -57,6 +66,21 @@ public class Book {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+    public Date getTakenTime() {
+        return takenTime;
+    }
+
+    public void setTakenTime(Date takenTime) {
+        this.takenTime = takenTime;
+    }
+
+    public boolean isExpired() {
+        return expired;
+    }
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
     }
 
     public int getYear() {
