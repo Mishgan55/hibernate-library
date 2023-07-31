@@ -11,6 +11,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -21,10 +24,15 @@ public class Book {
     @Column(name = "id")
     private int id;
     @Column(name = "title")
+    @NotEmpty(message = "Title should not be empty")
+    @Size(min=2, max=50, message = "Title should between 2-50 characters")
     private String title;
     @Column(name = "author")
+    @NotEmpty(message = "Author should not be empty")
+    @Size(min=2,max=100, message = "Author should between 2-100 characters")
     private String author;
     @Column(name = "year")
+    @Min(value = 1500, message = "Year should be greater then 1500")
     private int year;
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")

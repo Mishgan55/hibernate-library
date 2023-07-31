@@ -7,6 +7,7 @@ import khorsun.hibernate.library.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -63,8 +65,11 @@ public class BookController {
         return "book/new";
     }
     @PostMapping()
-    public String createBook(@ModelAttribute("book")Book book){
-        bookService.createBook(book);
+    public String createBook(@ModelAttribute("book")@Valid Book book,
+                             BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "book/new";}
+                    bookService.createBook(book);
         return "redirect:/book";
     }
     @GetMapping("/{id}/edit")
@@ -73,7 +78,10 @@ public class BookController {
         return "book/edit";
     }
     @PatchMapping("/{id}")
-    public String updateBook(@PathVariable("id")int id ,@ModelAttribute("book")Book book){
+    public String updateBook(@PathVariable("id")int id , @ModelAttribute("book")@Valid Book book,
+                             BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "book/edit";}
         bookService.update(id,book);
         return "redirect:/book";
     }
